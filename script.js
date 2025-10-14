@@ -9,7 +9,7 @@ const prices = {
       eco: 150,
     },
     '300x300': {
-      transparent_frost_standard: 280,
+      transparent_frost_standard: 290,
       transparent_ribbed_frost: 360,
       matte: 280,
       screenflex_welding: 360,
@@ -26,7 +26,7 @@ const prices = {
       eco: 165,
     },
     '300x300': {
-      transparent_frost_standard: 295,
+      transparent_frost_standard: 305,
       transparent_ribbed_frost: 395,
       matte: 295,
       screenflex_welding: 395,
