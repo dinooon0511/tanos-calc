@@ -36,15 +36,31 @@ const prices = {
 };
 
 const fastenersPrices = {
-  galvanized: {
-    plank_200: 65,
-    plank_300: 75,
-    comb: 295, // За 1 комплект
+  // Оптовые цены на крепежи
+  wholesale: {
+    galvanized: {
+      plank_200: 50,
+      plank_300: 60,
+      comb: 285, // За 1 комплект
+    },
+    stainless: {
+      plank_200: 80,
+      plank_300: 90,
+      comb: 550, // За 1 комплект
+    },
   },
-  stainless: {
-    plank_200: 85,
-    plank_300: 105,
-    comb: 550, // За 1 комплект
+  // Розничные цены на крепежи
+  retail: {
+    galvanized: {
+      plank_200: 65,
+      plank_300: 75,
+      comb: 295, // За 1 комплект
+    },
+    stainless: {
+      plank_200: 85,
+      plank_300: 105,
+      comb: 550, // За 1 комплект
+    },
   },
 };
 
@@ -188,20 +204,26 @@ function calculateCost() {
   const materialCostWholesale = totalMaterial * prices.wholesale[size][typeKey];
   const materialCostRetail = totalMaterial * prices.retail[size][typeKey];
 
-  // Количество планок и их стоимость
+  // Количество планок и их стоимость (разная для опта и розницы)
   const plankSize = size === '200x200' ? 'plank_200' : 'plank_300';
-  const plankCostPerUnit = fastenersPrices[fasteners][plankSize];
-  const totalPlanks = totalStrips; // Одна планка на каждую полосу
-  const planksCost = totalPlanks * plankCostPerUnit;
+  const plankCostWholesale = fastenersPrices.wholesale[fasteners][plankSize];
+  const plankCostRetail = fastenersPrices.retail[fasteners][plankSize];
 
-  // Количество гребёнок - ВСЕГДА 1 комплект на проем
+  const totalPlanks = totalStrips; // Одна планка на каждую полосу
+  const planksCostWholesale = totalPlanks * plankCostWholesale;
+  const planksCostRetail = totalPlanks * plankCostRetail;
+
+  // Количество гребёнок - ВСЕГДА 1 комплект на проем (разная цена для опта и розницы)
   const totalCombs = 1;
-  const combCost = fastenersPrices[fasteners]['comb'];
-  const combsCost = totalCombs * combCost;
+  const combCostWholesale = fastenersPrices.wholesale[fasteners]['comb'];
+  const combCostRetail = fastenersPrices.retail[fasteners]['comb'];
+
+  const combsCostWholesale = totalCombs * combCostWholesale;
+  const combsCostRetail = totalCombs * combCostRetail;
 
   // Общая стоимость без изготовления
-  const subtotalWholesale = materialCostWholesale + planksCost + combsCost;
-  const subtotalRetail = materialCostRetail + planksCost + combsCost;
+  const subtotalWholesale = materialCostWholesale + planksCostWholesale + combsCostWholesale;
+  const subtotalRetail = materialCostRetail + planksCostRetail + combsCostRetail;
 
   // Добавляем проценты за изготовление (7% для опта, 12% для розницы)
   const manufacturingFeeWholesale = subtotalWholesale * 0.07;
@@ -219,8 +241,8 @@ function calculateCost() {
         <div class="price-details">
           <p>Полосы: ${totalStrips} шт × ${heightM.toFixed(1)} м</p>
           <p>Материал: ${materialCostWholesale.toFixed(2)} руб</p>
-          <p>Планки: ${planksCost.toFixed(2)} руб</p>
-          <p>Гребенка: ${combsCost.toFixed(2)} руб</p>
+          <p>Планки: ${planksCostWholesale.toFixed(2)} руб</p>
+          <p>Гребенка: ${combsCostWholesale.toFixed(2)} руб</p>
           <p>Изготовление (7%): ${manufacturingFeeWholesale.toFixed(2)} руб</p>
         </div>
       </div>
@@ -230,8 +252,8 @@ function calculateCost() {
         <div class="price-details">
           <p>Полосы: ${totalStrips} шт × ${heightM.toFixed(1)} м</p>
           <p>Материал: ${materialCostRetail.toFixed(2)} руб</p>
-          <p>Планки: ${planksCost.toFixed(2)} руб</p>
-          <p>Гребенка: ${combsCost.toFixed(2)} руб</p>
+          <p>Планки: ${planksCostRetail.toFixed(2)} руб</p>
+          <p>Гребенка: ${combsCostRetail.toFixed(2)} руб</p>
           <p>Изготовление (12%): ${manufacturingFeeRetail.toFixed(2)} руб</p>
         </div>
       </div>
