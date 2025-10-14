@@ -11,7 +11,6 @@ const prices = {
     '300x300': {
       transparent_frost_standard: 280,
       transparent_ribbed_frost: 360,
-      transparent_ribbed_frost_standard_france: 280,
       matte: 280,
       screenflex_welding: 360,
       eco: 250,
@@ -29,7 +28,6 @@ const prices = {
     '300x300': {
       transparent_frost_standard: 295,
       transparent_ribbed_frost: 395,
-      transparent_ribbed_frost_standard_france: 295,
       matte: 295,
       screenflex_welding: 395,
       eco: 265,
@@ -39,14 +37,14 @@ const prices = {
 
 const fastenersPrices = {
   galvanized: {
-    plank_200: 50,
-    plank_300: 60,
-    comb: 285, // За 1 м
+    plank_200: 65,
+    plank_300: 75,
+    comb: 295, // За 1 комплект
   },
   stainless: {
-    plank_200: 80,
-    plank_300: 90,
-    comb: 550, // За 1 м
+    plank_200: 85,
+    plank_300: 105,
+    comb: 550, // За 1 комплект
   },
 };
 
@@ -122,12 +120,12 @@ function calculateCost() {
     }
   }
 
-  // Получаем размеры проёма в мм и переводим в метры для расчетов
+  // Получаем размеры проёма в мм
   const widthMm = parseFloat(document.getElementById('width').value) || 0;
   const heightMm = parseFloat(document.getElementById('height').value) || 0;
 
-  const width = widthMm / 1000; // переводим мм в метры
-  const height = heightMm / 1000; // переводим мм в метры
+  const widthM = widthMm / 1000; // переводим мм в метры
+  const heightM = heightMm / 1000; // переводим мм в метры
 
   // Получаем выбранный тип крепежей
   const fastenersInputs = document.getElementsByName('fasteners');
@@ -181,10 +179,10 @@ function calculateCost() {
 
   // Рассчитываем количество полос
   const stripsPerM = stripsPerMeter[size][fasteners][overlap];
-  const totalStrips = stripsPerM * width;
+  const totalStrips = Math.ceil(stripsPerM * widthM); // Округляем вверх
 
   // Общее количество материала (в погонных метрах)
-  const totalMaterial = totalStrips * height;
+  const totalMaterial = totalStrips * heightM;
 
   // Стоимость материала для опта и розницы
   const materialCostWholesale = totalMaterial * prices.wholesale[size][typeKey];
@@ -193,13 +191,13 @@ function calculateCost() {
   // Количество планок и их стоимость
   const plankSize = size === '200x200' ? 'plank_200' : 'plank_300';
   const plankCostPerUnit = fastenersPrices[fasteners][plankSize];
-  const totalPlanks = totalStrips;
+  const totalPlanks = totalStrips; // Одна планка на каждую полосу
   const planksCost = totalPlanks * plankCostPerUnit;
 
-  // Количество гребёнок и их стоимость
-  const totalCombs = width; // 1 гребёнка на 1 м ширины
-  const combCostPerMeter = fastenersPrices[fasteners]['comb'];
-  const combsCost = totalCombs * combCostPerMeter;
+  // Количество гребёнок - ВСЕГДА 1 комплект на проем
+  const totalCombs = 1;
+  const combCost = fastenersPrices[fasteners]['comb'];
+  const combsCost = totalCombs * combCost;
 
   // Общая стоимость без изготовления
   const subtotalWholesale = materialCostWholesale + planksCost + combsCost;
@@ -219,8 +217,10 @@ function calculateCost() {
         <h3>Оптовая цена</h3>
         <div class="total-cost">${totalCostWholesale.toFixed(2)} руб</div>
         <div class="price-details">
+          <p>Полосы: ${totalStrips} шт × ${heightM.toFixed(1)} м</p>
           <p>Материал: ${materialCostWholesale.toFixed(2)} руб</p>
-          <p>Крепежи: ${(planksCost + combsCost).toFixed(2)} руб</p>
+          <p>Планки: ${planksCost.toFixed(2)} руб</p>
+          <p>Гребенка: ${combsCost.toFixed(2)} руб</p>
           <p>Изготовление (7%): ${manufacturingFeeWholesale.toFixed(2)} руб</p>
         </div>
       </div>
@@ -228,8 +228,10 @@ function calculateCost() {
         <h3>Розничная цена</h3>
         <div class="total-cost">${totalCostRetail.toFixed(2)} руб</div>
         <div class="price-details">
+          <p>Полосы: ${totalStrips} шт × ${heightM.toFixed(1)} м</p>
           <p>Материал: ${materialCostRetail.toFixed(2)} руб</p>
-          <p>Крепежи: ${(planksCost + combsCost).toFixed(2)} руб</p>
+          <p>Планки: ${planksCost.toFixed(2)} руб</p>
+          <p>Гребенка: ${combsCost.toFixed(2)} руб</p>
           <p>Изготовление (12%): ${manufacturingFeeRetail.toFixed(2)} руб</p>
         </div>
       </div>
