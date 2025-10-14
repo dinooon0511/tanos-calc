@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="tilda-calculator-container">
+      <div class="tilda-calculator">
+        <!-- Шаг 1: Выбор типа завесы -->
+        <div class="step">
+          <h2>Выберите тип завесы</h2>
+          <div class="options">
+            <!-- 200x200 мм -->
+            <label>
+              <input
+                type="radio"
+                name="type"
+                value="200x200_transparent_frost_standard"
+                onchange="calculateCost()"
+              />
+              2×200 мм: Прозрачные морозостойкие, стандарт, Китай, Франция
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="type"
+                value="200x200_colored_china"
+                onchange="calculateCost()"
+              />
+              2×200 мм: Цветной Китай
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="type"
+                value="200x200_colored_france"
+                onchange="calculateCost()"
+              />
+              2×200 мм: Матовая и цветная Франция
+            </label>
+            <label>
+              <input type="radio" name="type" value="200x200_eco" onchange="calculateCost()" />
+              2×200 мм: Eco
+            </label>
+            <!-- 300x300 мм -->
+            <label>
+              <input
+                type="radio"
+                name="type"
+                value="300x300_transparent_frost_standard"
+                onchange="calculateCost()"
+              />
+              3×300 мм: Прозрачные морозостойкие, стандарт, Китай
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="type"
+                value="300x300_transparent_ribbed_frost"
+                onchange="calculateCost()"
+              />
+              3×300 мм: Рифленная морозостойкая Китай
+            </label>
+            <label>
+              <input type="radio" name="type" value="300x300_matte" onchange="calculateCost()" />
+              3×300 мм: Матовая
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="type"
+                value="300x300_screenflex_welding"
+                onchange="calculateCost()"
+              />
+              3×300 мм: Screenflex защита от сварки
+            </label>
+            <label>
+              <input type="radio" name="type" value="300x300_eco" onchange="calculateCost()" />
+              3×300 мм: Eco
+            </label>
+          </div>
+        </div>
+
+        <!-- Шаг 2: Выбор типа крепежей -->
+        <div class="step">
+          <h2>Выберите тип крепежей</h2>
+          <div class="options">
+            <label>
+              <input type="radio" name="fasteners" value="galvanized" onchange="calculateCost()" />
+              Оцинкованная сталь
+            </label>
+            <label>
+              <input type="radio" name="fasteners" value="stainless" onchange="calculateCost()" />
+              Нержавеющая сталь
+            </label>
+          </div>
+        </div>
+
+        <!-- Шаг 3: Выбор перекрытия -->
+        <div class="step">
+          <h2>Выберите перекрытие</h2>
+          <div class="options" id="overlap-options">
+            <!-- Варианты будут заполнены через JS -->
+          </div>
+        </div>
+
+        <!-- Шаг 4: Указание размеров проёма -->
+        <div class="step">
+          <h2>Укажите размеры проёма</h2>
+          <input
+            type="number"
+            id="width"
+            placeholder="Ширина проёма (L, мм)"
+            step="10"
+            min="0"
+            oninput="calculateCost()"
+          />
+          <input
+            type="number"
+            id="height"
+            placeholder="Высота проёма (H, мм)"
+            step="10"
+            min="0"
+            oninput="calculateCost()"
+          />
+        </div>
+
+        <!-- Результат -->
+        <div id="result"></div>
+      </div>
+    </div>
+  </body>
+  <script src="script.js"></script>
+</html>
