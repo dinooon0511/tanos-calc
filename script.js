@@ -243,7 +243,7 @@ function calculateCost() {
           <p>Материал: ${materialCostWholesale.toFixed(2)} руб</p>
           <p>Планки: ${planksCostWholesale.toFixed(2)} руб</p>
           <p>Гребенка: ${combsCostWholesale.toFixed(2)} руб</p>
-          <p>Изготовление (7%): ${manufacturingFeeWholesale.toFixed(2)} руб</p>
+          <p>Изготовление (10%): ${manufacturingFeeWholesale.toFixed(2)} руб</p>
         </div>
       </div>
       <div class="price-block retail">
