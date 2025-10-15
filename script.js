@@ -226,7 +226,7 @@ function calculateCost() {
   const subtotalRetail = materialCostRetail + planksCostRetail + combsCostRetail;
 
   // Добавляем проценты за изготовление (7% для опта, 12% для розницы)
-  const manufacturingFeeWholesale = subtotalWholesale * 0.07;
+  const manufacturingFeeWholesale = subtotalWholesale * 0.1;
   const manufacturingFeeRetail = subtotalRetail * 0.12;
 
   const totalCostWholesale = subtotalWholesale + manufacturingFeeWholesale;
